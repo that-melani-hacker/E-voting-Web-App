@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST http://localhost:5000/api/auth/admin/login -H 'Content-Type: application/json' -d '{\"email\":\"sysadmin@trinity.edu.ng\",\"password\":\"TrinSys@E7AC7D94\"}')",
+      "Bash(curl -s -X POST http://localhost:5000/api/auth/admin/login -H 'Content-Type: application/json' -d '{\"email\":\"elections@trinity.edu.ng\",\"password\":\"TrinElec@F04119AB\"}')",
+      "Bash(curl -s -X POST http://localhost:5000/api/auth/student/register -H 'Content-Type: application/json' -d '{\"matric_no\":\"TU/26/0010\",\"full_name\":\"Test Student\",\"email\":\"test.student@stu.trinity.edu.ng\",\"password\":\"TestPass1\",\"confirm_password\":\"TestPass1\"}')"
+    ]
+  }
+}

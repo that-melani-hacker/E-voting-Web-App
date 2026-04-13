@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const bcrypt = require\\('bcrypt'\\); Promise.all\\([bcrypt.hash\\('AdminPass123!', 10\\), bcrypt.hash\\('StudentPass123!', 10\\)]\\).then\\(\\([a,s]\\) => { console.log\\('ADMIN_HASH:' + a\\); console.log\\('STUDENT_HASH:' + s\\); }\\)\")",
+      "Bash(npm install:*)",
+      "Bash(node -e \"const bcrypt = require\\('bcrypt'\\); Promise.all\\([bcrypt.hash\\('AdminPass123!', 12\\), bcrypt.hash\\('StudentPass123!', 12\\)]\\).then\\(\\([a,s]\\) => { console.log\\('ADMIN:' + a\\); console.log\\('STUDENT:' + s\\); }\\)\")",
+      "Bash(mysql -u root --password=\"\" -e \"SHOW DATABASES;\")",
+      "Bash(mysql -u root '--password=Nnenna123#$' trinity_evoting -e ':*)",
+      "Bash(node src/server.js)",
+      "Bash(echo \"Server PID: $!\")",
+      "Read(//tmp/**)",
+      "Bash(pkill -f \"node src/server.js\")",
+      "Bash(npm run:*)",
+      "Bash(echo \"Client PID: $!\")"
+    ]
+  }
+}
