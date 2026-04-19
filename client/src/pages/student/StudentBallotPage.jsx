@@ -112,10 +112,20 @@ const StudentBallotPage = () => {
                           name={`position-${position.position_id}`}
                           checked={checked}
                           onChange={() => handleSelect(position.position_id, candidate.candidate_id)}
-                          className="mt-1"
+                          className="mt-1 shrink-0"
                         />
-                        <div>
+                        {candidate.photo_url && (
+                          <img
+                            src={candidate.photo_url}
+                            alt={candidate.full_name}
+                            className="h-14 w-14 shrink-0 rounded-xl object-cover border border-slate-200"
+                          />
+                        )}
+                        <div className="min-w-0">
                           <p className="font-semibold text-slate-900">{candidate.full_name}</p>
+                          {candidate.department && (
+                            <p className="mt-0.5 text-xs font-medium text-brand-700">{candidate.department}</p>
+                          )}
                           <p className="mt-2 text-sm text-slate-600">
                             {candidate.manifesto || "No campaign statement available."}
                           </p>

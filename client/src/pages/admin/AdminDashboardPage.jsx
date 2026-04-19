@@ -89,7 +89,8 @@ const AdminDashboardPage = () => {
       electionForm.reset();
       await loadDashboard();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Unable to create election");
+      const d = requestError.response?.data;
+      setError(d?.details?.[0]?.msg || d?.message || "Unable to create election");
     }
   });
 
@@ -106,7 +107,8 @@ const AdminDashboardPage = () => {
       positionForm.reset();
       await loadDashboard();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Unable to create position");
+      const d = requestError.response?.data;
+      setError(d?.details?.[0]?.msg || d?.message || "Unable to create position");
     }
   });
 
@@ -125,7 +127,8 @@ const AdminDashboardPage = () => {
       candidateForm.reset();
       await loadDashboard();
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Unable to add candidate");
+      const d = requestError.response?.data;
+      setError(d?.details?.[0]?.msg || d?.message || "Unable to add candidate");
     }
   });
 
@@ -258,12 +261,14 @@ const AdminDashboardPage = () => {
                   {...positionForm.register("max_selection")}
                   type="number"
                   min="1"
+                  placeholder="Max selections (default: 1)"
                   className="rounded-2xl border border-slate-200 px-4 py-3"
                 />
                 <input
                   {...positionForm.register("display_order")}
                   type="number"
                   min="0"
+                  placeholder="Display order (0 = first)"
                   className="rounded-2xl border border-slate-200 px-4 py-3"
                 />
                 <button className="md:col-span-2 rounded-2xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white">
@@ -275,34 +280,81 @@ const AdminDashboardPage = () => {
             <div className="rounded-3xl bg-white p-6 shadow-soft">
               <h2 className="text-xl font-bold text-slate-900">Add Candidate</h2>
               <form onSubmit={handleCreateCandidate} className="mt-4 grid gap-4 md:grid-cols-2">
+
+                {/* Election + Position */}
                 <ElectionSelect register={candidateForm.register} name="electionId" elections={elections} required placeholder="1. Select election" />
                 <PositionSelect register={candidateForm.register} name="positionId" positions={positionsForCandidate} required placeholder={watchCandidateElection ? "2. Select position" : "Select election first"} />
-                <input
-                  {...candidateForm.register("matric_no", { required: true })}
-                  placeholder="Matriculation Number (e.g. TU/24/0001)"
-                  className="rounded-2xl border border-slate-200 px-4 py-3"
-                />
+
+                {/* Full Name */}
                 <input
                   {...candidateForm.register("full_name", { required: true })}
-                  placeholder="Candidate Full Name"
-                  className="rounded-2xl border border-slate-200 px-4 py-3"
-                />
-                <input
-                  {...candidateForm.register("department", { required: true })}
-                  placeholder="Department (e.g. Computer Science)"
-                  className="rounded-2xl border border-slate-200 px-4 py-3"
-                />
-                <input
-                  {...candidateForm.register("photo_url")}
-                  placeholder="Photo URL (optional)"
+                  placeholder="Full Name"
                   className="rounded-2xl border border-slate-200 px-4 py-3 md:col-span-2"
                 />
+
+                {/* Matric Number */}
+                <input
+                  {...candidateForm.register("matric_no", { required: true })}
+                  placeholder="Matriculation Number"
+                  className="rounded-2xl border border-slate-200 px-4 py-3"
+                />
+
+                {/* Department grouped by Faculty */}
+                <select
+                  {...candidateForm.register("department", { required: true })}
+                  className="rounded-2xl border border-slate-200 px-4 py-3 text-slate-700"
+                >
+                  <option value="">Select Department</option>
+                  <optgroup label="Faculty of Arts, Management & Social Sciences">
+                    <option>Economics</option>
+                    <option>English & Literary Studies</option>
+                    <option>Mass Communication</option>
+                    <option>Management Sciences</option>
+                    <option>Political Science</option>
+                  </optgroup>
+                  <optgroup label="Faculty of Basic Medical & Applied Sciences">
+                    <option>Computer & Information Sciences</option>
+                    <option>Biological Sciences</option>
+                    <option>Medical Laboratory Science</option>
+                    <option>Physics with Electronics</option>
+                  </optgroup>
+                  <optgroup label="Faculty of Nursing Science">
+                    <option>Nursing Science</option>
+                  </optgroup>
+                </select>
+
+                {/* Manifesto */}
                 <textarea
                   {...candidateForm.register("manifesto")}
                   placeholder="Manifesto (optional)"
                   className="rounded-2xl border border-slate-200 px-4 py-3 md:col-span-2"
                   rows="3"
                 />
+
+                {/* Picture upload */}
+                <div className="md:col-span-2">
+                  <label className="mb-1.5 block text-sm font-medium text-slate-700">Candidate Picture (optional)</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onloadend = () => candidateForm.setValue("photo_url", reader.result);
+                      reader.readAsDataURL(file);
+                    }}
+                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-600 file:mr-4 file:rounded-xl file:border-0 file:bg-brand-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-brand-700"
+                  />
+                  {candidateForm.watch("photo_url") && (
+                    <img
+                      src={candidateForm.watch("photo_url")}
+                      alt="Preview"
+                      className="mt-3 h-20 w-20 rounded-2xl object-cover border border-slate-200"
+                    />
+                  )}
+                </div>
+
                 <button className="md:col-span-2 rounded-2xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white">
                   Add Candidate
                 </button>

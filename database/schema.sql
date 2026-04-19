@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS candidates (
   full_name VARCHAR(150) NOT NULL,
   department VARCHAR(100) NULL,
   manifesto TEXT NULL,
-  photo_url VARCHAR(255) NULL,
+  photo_url MEDIUMTEXT NULL,
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   CONSTRAINT fk_candidates_position FOREIGN KEY (position_id) REFERENCES positions(position_id) ON DELETE CASCADE,
   CONSTRAINT fk_candidates_student FOREIGN KEY (student_id) REFERENCES students(student_id),

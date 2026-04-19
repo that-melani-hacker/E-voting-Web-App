@@ -26,11 +26,11 @@ const positionCreateValidator = [
 
 const candidateCreateValidator = [
   param("positionId").isInt({ min: 1 }).withMessage("Position ID must be numeric"),
-  body("matric_no").trim().notEmpty().withMessage("Matriculation number is required"),
+  body("matric_no").trim().notEmpty().withMessage("Matriculation number is required").isLength({ min: 5, max: 20 }),
   body("full_name").trim().notEmpty().withMessage("Candidate full name is required"),
   body("department").trim().notEmpty().withMessage("Department is required"),
   body("manifesto").optional().trim().isLength({ max: 3000 }),
-  body("photo_url").optional().isURL().withMessage("photo_url must be a valid URL"),
+  body("photo_url").optional(),
 ];
 
 const auditLogQueryValidator = [
