@@ -51,15 +51,14 @@ CREATE TABLE IF NOT EXISTS positions (
 CREATE TABLE IF NOT EXISTS candidates (
   candidate_id INT AUTO_INCREMENT PRIMARY KEY,
   position_id INT NOT NULL,
-  student_id INT NOT NULL,
+  matric_no VARCHAR(30) NOT NULL,
   full_name VARCHAR(150) NOT NULL,
   department VARCHAR(100) NULL,
   manifesto TEXT NULL,
   photo_url MEDIUMTEXT NULL,
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   CONSTRAINT fk_candidates_position FOREIGN KEY (position_id) REFERENCES positions(position_id) ON DELETE CASCADE,
-  CONSTRAINT fk_candidates_student FOREIGN KEY (student_id) REFERENCES students(student_id),
-  CONSTRAINT uq_candidates_position_student UNIQUE (position_id, student_id)
+  CONSTRAINT uq_candidates_position_matric UNIQUE (position_id, matric_no)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS votes (

@@ -35,7 +35,7 @@ const getBallotForElection = async (electionId) => {
   );
 
   const [candidates] = await pool.query(
-    `SELECT c.candidate_id, c.position_id, c.student_id, c.full_name, c.manifesto, c.photo_url
+    `SELECT c.candidate_id, c.position_id, c.matric_no, c.full_name, c.manifesto, c.photo_url
      FROM candidates c
      INNER JOIN positions p ON p.position_id = c.position_id
      WHERE p.election_id = ?

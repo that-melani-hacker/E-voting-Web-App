@@ -14,7 +14,7 @@ const studentRegisterValidator = [
   body("matric_no")
     .trim()
     .notEmpty().withMessage("Matriculation number is required")
-    .isLength({ min: 5, max: 20 }).withMessage("Matriculation number must be between 5 and 20 characters"),
+    .matches(/^TU\/\d{2,4}\/\d{3,6}$/).withMessage("Matriculation number must follow the format TU/YY/NNNN (e.g. TU/24/0001)"),
   body("full_name")
     .trim()
     .notEmpty().withMessage("Full name is required")

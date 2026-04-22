@@ -79,23 +79,13 @@ const getPositionById = async (positionId) => {
   return rows[0] || null;
 };
 
-const createCandidate = async ({ positionId, studentId, fullName, department, manifesto, photoUrl }) => {
+const createCandidate = async ({ positionId, matricNo, fullName, department, manifesto, photoUrl }) => {
   const [result] = await pool.query(
-    `INSERT INTO candidates (position_id, student_id, full_name, department, manifesto, photo_url)
+    `INSERT INTO candidates (position_id, matric_no, full_name, department, manifesto, photo_url)
      VALUES (?, ?, ?, ?, ?, ?)`,
-    [positionId, studentId, fullName, department || null, manifesto || null, photoUrl || null]
+    [positionId, matricNo, fullName, department || null, manifesto || null, photoUrl || null]
   );
   return result.insertId;
-};
-
-const getStudentByMatricNo = async (matricNo) => {
-  const [rows] = await pool.query(
-    `SELECT student_id, full_name, email, matric_no, is_active
-     FROM students
-     WHERE matric_no = ?`,
-    [matricNo]
-  );
-  return rows[0] || null;
 };
 
 module.exports = {
@@ -109,5 +99,4 @@ module.exports = {
   listPositionsByElection,
   getPositionById,
   createCandidate,
-  getStudentByMatricNo,
 };

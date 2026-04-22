@@ -60,14 +60,9 @@ const createCandidate = async ({ positionId, payload, actor, ipAddress, correlat
     throw new ApiError(404, "Position not found");
   }
 
-  const student = await electionRepository.getStudentByMatricNo(payload.matric_no);
-  if (!student) {
-    throw new ApiError(404, `No registered student found with matric number ${payload.matric_no}`);
-  }
-
   const candidateId = await electionRepository.createCandidate({
     positionId,
-    studentId: student.student_id,
+    matricNo: payload.matric_no,
     fullName: payload.full_name,
     department: payload.department,
     manifesto: payload.manifesto,

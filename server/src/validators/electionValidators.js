@@ -26,7 +26,8 @@ const positionCreateValidator = [
 
 const candidateCreateValidator = [
   param("positionId").isInt({ min: 1 }).withMessage("Position ID must be numeric"),
-  body("matric_no").trim().notEmpty().withMessage("Matriculation number is required").isLength({ min: 5, max: 20 }),
+  body("matric_no").trim().notEmpty().withMessage("Matriculation number is required")
+    .matches(/^TU\/\d{2,4}\/\d{3,6}$/).withMessage("Matriculation number must follow the format TU/YY/NNNN (e.g. TU/24/0001)"),
   body("full_name").trim().notEmpty().withMessage("Candidate full name is required"),
   body("department").trim().notEmpty().withMessage("Department is required"),
   body("manifesto").optional().trim().isLength({ max: 3000 }),
