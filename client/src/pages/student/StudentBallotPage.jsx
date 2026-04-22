@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { Trophy } from "lucide-react";
 import LayoutShell from "../../components/LayoutShell";
 import StatusCard from "../../components/StatusCard";
 import http from "../../api/http";
@@ -7,24 +8,29 @@ import http from "../../api/http";
 const StudentBallotPage = () => {
   const navigate = useNavigate();
   const [ballot, setBallot] = useState(null);
+  const [publishedElections, setPublishedElections] = useState([]);
   const [selectionMap, setSelectionMap] = useState({});
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchBallot = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await http.get("/student/elections/active");
-        setBallot(data.data);
+        const [activeRes, publishedRes] = await Promise.all([
+          http.get("/student/elections/active"),
+          http.get("/student/elections/published"),
+        ]);
+        setBallot(activeRes.data.data);
+        setPublishedElections(publishedRes.data.data);
       } catch (requestError) {
-        setError(requestError.response?.data?.message || "Unable to load active election");
+        setError(requestError.response?.data?.message || "Unable to load election data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBallot();
+    fetchData();
   }, []);
 
   const selectedCount = useMemo(() => Object.keys(selectionMap).length, [selectionMap]);
@@ -71,9 +77,31 @@ const StudentBallotPage = () => {
       {loading ? (
         <div className="rounded-3xl bg-white p-8 shadow-soft">Loading active election...</div>
       ) : !ballot ? (
-        <div className="rounded-3xl bg-white p-8 shadow-soft">
-          <p className="text-lg font-semibold text-slate-900">No active election is available right now.</p>
-          <p className="mt-2 text-sm text-slate-600">Please check again during the official voting window.</p>
+        <div className="space-y-6">
+          <div className="rounded-3xl bg-white p-8 shadow-soft">
+            <p className="text-lg font-semibold text-slate-900">No active election is available right now.</p>
+            <p className="mt-2 text-sm text-slate-600">Please check again during the official voting window.</p>
+          </div>
+          {publishedElections.length > 0 && (
+            <div className="rounded-3xl bg-white p-6 shadow-soft">
+              <div className="flex items-center gap-2 mb-4">
+                <Trophy className="h-5 w-5 text-brand-700" />
+                <h2 className="text-lg font-bold text-slate-900">Published Results</h2>
+              </div>
+              <div className="space-y-3">
+                {publishedElections.map((election) => (
+                  <Link
+                    key={election.election_id}
+                    to={`/student/results/${election.election_id}`}
+                    className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 transition hover:border-brand-300 hover:bg-brand-50"
+                  >
+                    <p className="font-semibold text-slate-900">{election.title}</p>
+                    <span className="text-sm font-semibold text-brand-700">View Results →</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="space-y-6">

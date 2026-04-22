@@ -11,7 +11,18 @@
       "Read(//tmp/**)",
       "Bash(pkill -f \"node src/server.js\")",
       "Bash(npm run:*)",
-      "Bash(echo \"Client PID: $!\")"
+      "Bash(echo \"Client PID: $!\")",
+      "Bash(mysql -h maglev.proxy.rlwy.net -P 18125 -u root -p'xidDneHFlMPuRpfMatMHpuSLPUXmEyiQ' railway)",
+      "Bash(mysql -h maglev.proxy.rlwy.net -P 18125 -u root -pxidDneHFlMPuRpfMatMHpuSLPUXmEyiQ railway -e ':*)",
+      "Bash(curl -s -X POST https://e-voting-web-app-production.up.railway.app/api/auth/student/register -H 'Content-Type: application/json' -H 'Origin: https://e-voting-web-app.vercel.app' -d '{\"matric_no\":\"TU/2023/0012\",\"full_name\":\"Amara Ordor\",\"email\":\"amarachi@stu.trinity.edu.ng\",\"password\":\"Test1234\",\"confirm_password\":\"Test1234\"}')",
+      "Bash(curl -s -I -X OPTIONS https://e-voting-web-app-production.up.railway.app/api/auth/student/register -H 'Origin: https://e-voting-web-app.vercel.app' -H 'Access-Control-Request-Method: POST')",
+      "Bash(curl -s https://e-voting-web-app-production.up.railway.app/api/health)",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -s -X POST http://localhost:5000/api/auth/student/login -H 'Content-Type: application/json' -d '{\"matric_no\":\"TU/24/0001\",\"password\":\"StudentPass123!\"}')",
+      "Bash(mysql -u root --password=\"Nnenna123#$\" trinity_evoting -e \"SELECT election_id, title, status, start_time, end_time FROM elections;\")",
+      "Bash(mysql -u root '--password=Nnenna123#$' trinity_evoting -e ' *)",
+      "Bash(awk '{print $5}')",
+      "Bash(xargs -I{} taskkill //PID {} //F)"
     ]
   }
 }

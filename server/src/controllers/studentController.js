@@ -1,6 +1,8 @@
 const asyncHandler = require("../utils/asyncHandler");
 const electionService = require("../services/electionService");
 const voteService = require("../services/voteService");
+const resultService = require("../services/resultService");
+const ApiError = require("../utils/apiError");
 
 const getActiveElection = asyncHandler(async (_req, res) => {
   const election = await electionService.getActiveElectionWithBallot();
@@ -46,10 +48,28 @@ const getConfirmation = asyncHandler(async (req, res) => {
   });
 });
 
+const getPublishedElections = asyncHandler(async (_req, res) => {
+  const elections = await electionService.listElections();
+  const published = elections.filter((e) => e.results_published);
+  res.status(200).json({ success: true, data: published });
+});
+
+const getPublishedResults = asyncHandler(async (req, res) => {
+  const electionId = Number(req.params.electionId);
+  const elections = await electionService.listElections();
+  const election = elections.find((e) => e.election_id === electionId);
+  if (!election) throw new ApiError(404, "Election not found");
+  if (!election.results_published) throw new ApiError(403, "Results for this election have not been published yet");
+  const results = await resultService.getResults(electionId);
+  res.status(200).json({ success: true, data: results });
+});
+
 module.exports = {
   getActiveElection,
   getBallot,
   submitVote,
   getConfirmation,
+  getPublishedElections,
+  getPublishedResults,
 };
 

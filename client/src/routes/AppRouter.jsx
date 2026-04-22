@@ -4,6 +4,7 @@ import StudentLoginPage from "../pages/student/StudentLoginPage";
 import StudentRegisterPage from "../pages/student/StudentRegisterPage";
 import StudentBallotPage from "../pages/student/StudentBallotPage";
 import VoteConfirmationPage from "../pages/student/VoteConfirmationPage";
+import StudentResultsPage from "../pages/student/StudentResultsPage";
 import AdminLoginPage from "../pages/admin/AdminLoginPage";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 
@@ -16,6 +17,7 @@ const AppRouter = () => (
     <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
       <Route path="/student/election" element={<StudentBallotPage />} />
       <Route path="/student/confirmation/:electionId" element={<VoteConfirmationPage />} />
+      <Route path="/student/results/:electionId" element={<StudentResultsPage />} />
     </Route>
 
     <Route element={<ProtectedRoute allowedRoles={["election_admin", "system_admin"]} />}>
