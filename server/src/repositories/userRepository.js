@@ -64,7 +64,11 @@ const incrementAdminLoginFailure = async (adminId, failedAttempts, lockedUntil =
 
 const findStudentByEmail = async (email) => {
   const [rows] = await pool.query(
-    `SELECT student_id FROM students WHERE email = ? LIMIT 1`,
+    `SELECT student_id, matric_no, full_name, email, password_hash, is_active,
+            failed_login_attempts, locked_until, created_at
+     FROM students
+     WHERE email = ?
+     LIMIT 1`,
     [email]
   );
   return rows[0] || null;
