@@ -295,7 +295,7 @@ const AdminDashboardPage = () => {
                 {/* Matric Number */}
                 <input
                   {...candidateForm.register("matric_no", { required: true })}
-                  placeholder="Matriculation Number"
+                  placeholder="Matriculation Number (e.g. 202500001)"
                   className="rounded-2xl border border-slate-200 px-4 py-3"
                 />
 

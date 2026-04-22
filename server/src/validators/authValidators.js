@@ -14,7 +14,7 @@ const studentRegisterValidator = [
   body("matric_no")
     .trim()
     .notEmpty().withMessage("Matriculation number is required")
-    .matches(/^TU\/\d{2,4}\/\d{3,6}$/).withMessage("Matriculation number must follow the format TU/YY/NNNN (e.g. TU/24/0001)"),
+    .matches(/^20\d{2}\d{4,6}$/).withMessage("Matriculation number must follow the format YYYYNNNNN (e.g. 202500001)"),
   body("full_name")
     .trim()
     .notEmpty().withMessage("Full name is required")

@@ -100,7 +100,7 @@ const StudentRegisterPage = () => {
                 <input
                   {...register("matric_no", { required: "Matric number is required" })}
                   className="w-full rounded-2xl border border-slate-200 py-3 pl-10 pr-4 outline-none transition focus:border-brand-500"
-                  placeholder="e.g. TU/2024/001 or TU/24/0001"
+                  placeholder="e.g. 202500001"
                 />
               </div>
               {errors.matric_no && <p className="mt-1.5 text-xs text-red-600">{errors.matric_no.message}</p>}
