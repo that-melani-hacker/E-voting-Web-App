@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Hash, Lock, Eye, EyeOff, ShieldCheck, FileSearch, CheckCircle, LogIn } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ShieldCheck, FileSearch, CheckCircle, LogIn } from "lucide-react";
 import http from "../../api/http";
 import { useAuth } from "../../features/auth/AuthContext";
 
@@ -86,16 +86,17 @@ const StudentLoginPage = () => {
 
           <form className="mt-8 space-y-5" onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Matriculation Number</label>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">Email Address</label>
               <div className="relative">
-                <Hash className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 <input
-                  {...register("matric_no", { required: "Matric number is required" })}
+                  {...register("email", { required: "Email is required" })}
+                  type="email"
                   className="w-full rounded-2xl border border-slate-200 py-3 pl-10 pr-4 outline-none transition focus:border-brand-500"
-                  placeholder="e.g. TU/24/0001"
+                  placeholder="you@stu.trinity.edu.ng"
                 />
               </div>
-              {errors.matric_no && <p className="mt-1.5 text-xs text-red-600">{errors.matric_no.message}</p>}
+              {errors.email && <p className="mt-1.5 text-xs text-red-600">{errors.email.message}</p>}
             </div>
 
             <div>

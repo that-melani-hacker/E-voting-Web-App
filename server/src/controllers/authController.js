@@ -3,7 +3,7 @@ const authService = require("../services/authService");
 
 const studentLogin = asyncHandler(async (req, res) => {
   const result = await authService.loginStudent({
-    matricNo: req.body.matric_no,
+    email: req.body.email,
     password: req.body.password,
     ipAddress: req.clientIp,
     correlationId: req.correlationId,

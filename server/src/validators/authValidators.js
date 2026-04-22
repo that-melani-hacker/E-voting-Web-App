@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 
 const studentLoginValidator = [
-  body("matric_no").trim().notEmpty().withMessage("Matriculation number is required"),
+  body("email").isEmail().withMessage("A valid email address is required"),
   body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
 ];
 

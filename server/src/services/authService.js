@@ -36,19 +36,19 @@ const recordFailure = async ({ actor, type, ipAddress, correlationId }) => {
   });
 };
 
-const loginStudent = async ({ matricNo, password, ipAddress, correlationId }) => {
-  const student = await userRepository.findStudentByMatricNo(matricNo);
+const loginStudent = async ({ email, password, ipAddress, correlationId }) => {
+  const student = await userRepository.findStudentByEmail(email);
 
   if (!student) {
     await auditService.logEvent({
       actorId: 0,
       actorType: "system",
       actionType: "login_failed",
-      details: `Student login failed for unknown matric number ${matricNo}`,
+      details: `Student login failed for unknown email ${email}`,
       ipAddress,
       correlationId,
     });
-    throw new ApiError(401, "Invalid matriculation number or password");
+    throw new ApiError(401, "Invalid email or password");
   }
 
   if (!student.is_active) {
@@ -78,7 +78,7 @@ const loginStudent = async ({ matricNo, password, ipAddress, correlationId }) =>
   const passwordMatches = await bcrypt.compare(password, student.password_hash);
   if (!passwordMatches) {
     await recordFailure({ actor: student, type: "student", ipAddress, correlationId });
-    throw new ApiError(401, "Invalid matriculation number or password");
+    throw new ApiError(401, "Invalid email or password");
   }
 
   await userRepository.resetStudentLoginFailures(student.student_id);
